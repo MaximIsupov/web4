@@ -97,10 +97,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
   // Складываем предыдущие значения полей в массив, если есть.
   $values = array();
+  $abity = array();
   $values['fio'] = empty($_COOKIE['fio_value']) ? '' : $_COOKIE['fio_value'];
   $values['mail'] = empty($_COOKIE['mail_value']) ? '' : $_COOKIE['mail_value'];
   $values['year'] = empty($_COOKIE['year_value']) ? '' : $_COOKIE['year_value'];
-  $values['abilities'] = empty($_COOKIE['abilities_value']) ? '' : $_COOKIE['abilities_value'];
+ // $values['abilities'] = empty($_COOKIE['abilities_value']) ? '' : $_COOKIE['abilities_value'];
+  $ability['first'] = empty($_COOKIE['abilities_value']) ? '' : $_COOKIE['abilities_value'];
+  $ability['second'] = empty($_COOKIE['abilities_value2']) ? '' : $_COOKIE['abilities_value2'];
+  $ability['third'] = empty($_COOKIE['abilities_value3']) ? '' : $_COOKIE['abilities_value3'];
   $values['sex'] = empty($_COOKIE['sex_value']) ? '' : $_COOKIE['sex_value'];
   $values['bio'] = empty($_COOKIE['bio_value']) ? '' : $_COOKIE['bio_value'];
   $values['checkbox'] = empty($_COOKIE['checkbox_value']) ? '' : $_COOKIE['checkbox_value'];
@@ -157,7 +161,12 @@ if (empty($_POST['abilities'])) {
 
 else {
     // Сохраняем ранее введенное в форму значение на месяц.
+    if ($_POST['abilities'] == 'Immortal')
     setcookie('abilities_value', $_POST['abilities'], time() + 30 * 24 * 60 * 60);
+    if ($_POST['abilities'] == 'Walls')
+    setcookie('abilities_value2', $_POST['abilities'], time() + 30 * 24 * 60 * 60);
+    if ($_POST['abilities'] == 'Levitation')
+    setcookie('abilities_value3', $_POST['abilities'], time() + 30 * 24 * 60 * 60);
 }
 
 
