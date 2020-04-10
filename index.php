@@ -13,6 +13,9 @@ header('Content-Type: text/html; charset=UTF-8');
 // В суперглобальном массиве $_SERVER PHP сохраняет некторые заголовки запроса HTTP
 // и другие сведения о клиненте и сервере, например метод текущего запроса $_SERVER['REQUEST_METHOD'].
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+    
+    // Массив для временного хранения сообщений пользователю.
+    $messages = array();
 
      // В суперглобальном массиве $_COOKIE PHP хранит все имена и значения куки текущего запроса.
   // Выдаем сообщение об успешном сохранении.
@@ -62,11 +65,46 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     // Выводим сообщение.
     $messages[] = '<div class="error">Не выбраны суперспособности...</div>';
   }
+  
+  if ($errors['limps']) {
+      // Удаляем куку, указывая время устаревания в прошлом.
+      setcookie('limps_error', '', 100000);
+      // Выводим сообщение.
+      $messages[] = '<div class="error">Не выбрано количество конечностей...</div>';
+  }
+  
+  if ($errors['sex']) {
+      // Удаляем куку, указывая время устаревания в прошлом.
+      setcookie('sex_error', '', 100000);
+      // Выводим сообщение.
+      $messages[] = '<div class="error">Не выбран пол...</div>';
+  }
+  
+  if ($errors['bio']) {
+      // Удаляем куку, указывая время устаревания в прошлом.
+      setcookie('bio_error', '', 100000);
+      // Выводим сообщение.
+      $messages[] = '<div class="error">Не расписана биография...</div>';
+  }
+  
+  if ($errors['checkbox']) {
+      // Удаляем куку, указывая время устаревания в прошлом.
+      setcookie('checkbox_error', '', 100000);
+      // Выводим сообщение.
+      $messages[] = '<div class="error">Не проставлен чекбокс...</div>';
+  }
   // TODO: тут выдать сообщения об ошибках в других полях.
 
   // Складываем предыдущие значения полей в массив, если есть.
   $values = array();
   $values['fio'] = empty($_COOKIE['fio_value']) ? '' : $_COOKIE['fio_value'];
+  $values['mail'] = empty($_COOKIE['mail_value']) ? '' : $_COOKIE['mail_value'];
+  $values['year'] = empty($_COOKIE['year_value']) ? '' : $_COOKIE['year_value'];
+  $values['abilities'] = empty($_COOKIE['abilities_value']) ? '' : $_COOKIE['abilities_value'];
+  $values['sex'] = empty($_COOKIE['sex_value']) ? '' : $_COOKIE['sex_value'];
+  $values['bio'] = empty($_COOKIE['bio_value']) ? '' : $_COOKIE['bio_value'];
+  $values['checkbox'] = empty($_COOKIE['checkbox_value']) ? '' : $_COOKIE['checkbox_value'];
+  $values['limps'] = empty($_COOKIE['limps_value']) ? '' : $_COOKIE['limps_value'];
   // TODO: аналогично все поля.
 
   // Включаем содержимое файла form.php.
@@ -80,44 +118,92 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 else{
 $errors = FALSE;
 if (empty($_POST['fio'])) {
-    print('Вы забыли написать свое имя.<br/>');
+    setcookie('fio_error', '1', time() + 24 * 60 * 60);
     $errors = TRUE;
 }
+
+else {
+    // Сохраняем ранее введенное в форму значение на месяц.
+    setcookie('fio_value', $_POST['fio'], time() + 30 * 24 * 60 * 60);
+}
+
 
 if (empty($_POST['mail'])) {
-    print('Вы не заполнили поле e-mail. Пожалуйсте, сделайте это.<br/>');
+    setcookie('mail_error', '1', time() + 24 * 60 * 60);
     $errors = TRUE;
 }
+
+else {
+    // Сохраняем ранее введенное в форму значение на месяц.
+    setcookie('mail_value', $_POST['mail'], time() + 30 * 24 * 60 * 60);
+}
+
 
 if (empty($_POST['year'])) {
-    print('Заполните год рождения!<br/>');
+    setcookie('year_error', '1', time() + 24 * 60 * 60);
     $errors = TRUE;
 }
+
+else {
+    // Сохраняем ранее введенное в форму значение на месяц.
+    setcookie('year_value', $_POST['year'], time() + 30 * 24 * 60 * 60);
+}
+
 
 if (empty($_POST['abilities'])) {
-    print('Вы позабыли выбрать свою способность!<br/>');
+    setcookie('abilities_error', '1', time() + 24 * 60 * 60);
     $errors = TRUE;
 }
+
+else {
+    // Сохраняем ранее введенное в форму значение на месяц.
+    setcookie('abilities_value', $_POST['abilities'], time() + 30 * 24 * 60 * 60);
+}
+
 
 if (empty($_POST['limps'])) {
-    print('Количество конечностей вами не указано...<br/>');
+    setcookie('limps_error', '1', time() + 24 * 60 * 60);
     $errors = TRUE;
 }
+
+else {
+    // Сохраняем ранее введенное в форму значение на месяц.
+    setcookie('limps_value', $_POST['limps'], time() + 30 * 24 * 60 * 60);
+}
+
 
 if (empty($_POST['sex'])) {
-    print('Выбор пола не был сделан.<br/>');
+    setcookie('sex_error', '1', time() + 24 * 60 * 60);
     $errors = TRUE;
 }
+
+else {
+    // Сохраняем ранее введенное в форму значение на месяц.
+    setcookie('sex_value', $_POST['sex'], time() + 30 * 24 * 60 * 60);
+}
+
 
 if (empty($_POST['bio'])) {
-    print('Биография не расписана((<br/>');
+    setcookie('bio_error', '1', time() + 24 * 60 * 60);
     $errors = TRUE;
 }
 
+else {
+    // Сохраняем ранее введенное в форму значение на месяц.
+    setcookie('bio_value', $_POST['bio'], time() + 30 * 24 * 60 * 60);
+}
+
+
 if (empty($_POST['checkbox'])) {
-    print('Галочка напротив поля "Ознакомлен с контрактом" не поставлена((<br/>');
+    setcookie('checkbox_error', '1', time() + 24 * 60 * 60);
     $errors = TRUE;
 }
+
+else {
+    // Сохраняем ранее введенное в форму значение на месяц.
+    setcookie('checkbox_value', $_POST['checkbox'], time() + 30 * 24 * 60 * 60);
+}
+
 
 $abilities=serialize($_POST['abilities']);
 
@@ -128,10 +214,15 @@ $abilities=serialize($_POST['abilities']);
 // *************
 
 if ($errors) {
-    // При наличии ошибок завершаем работу скрипта.
+    // При наличии ошибок перезагружаем страницу и завершаем работу скрипта.
+    header('Location: index.php');
     exit();
 }
-
+else {
+    // Удаляем Cookies с признаками ошибок.
+    setcookie('fio_error', '', 100000);
+    // TODO: тут необходимо удалить остальные Cookies.
+}
 // Сохранение в базу данных.
 
 $user = 'u16350';
@@ -164,6 +255,9 @@ catch(PDOException $e){
  $email = "john@test.com";
  $stmt->execute();
  */
+
+// Сохраняем куку с признаком успешного сохранения.
+setcookie('save', '1');
 
 // Делаем перенаправление.
 // Если запись не сохраняется, но ошибок не видно, то можно закомментировать эту строку чтобы увидеть ошибку.
